@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = React.createContext();
 
@@ -17,7 +18,7 @@ function AuthProvider(props) {
       const result = await axios.post("http://localhost:4000/auth/login", data);
       const token = result.data.token;
       localStorage.setItem("token", token);
-      const user = decode(token);
+      const user = jwtDecode(token);
       setState({ ...state, user });
       navigate("/");
     } catch (error) {
